@@ -74,9 +74,10 @@
     </div>
   </div>
 </template>
-
 <script>
 import { supabase } from "./supabase";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 export default {
   data() {
@@ -92,25 +93,34 @@ export default {
       const passwordInput = document.getElementById("password");
       passwordInput.type = this.passwordVisible ? "text" : "password";
     },
-    async handleSignIn(submitEvent) {
+    async handleSignIn() {
       try {
-      console.log(submitEvent.target);
         let params = {
-        email: this.email,
-        password: this.password,
-      };
-      
-      const { data, error } = await supabase.auth.signInWithPassword(params);
-      console.log(data);
-      if (error) throw error;   
-      this.$router.push("/home");
+          email: this.email,
+          password: this.password,
+        };
+        
+        const { data, error } = await supabase.auth.signInWithPassword(params);
+        if (error) throw error;   
+        
+        toast.success('Login successful');
+
+        setTimeout(() => {
+          this.$router.push("/home");
+        }, 5000); 
       } catch (error) {
-        alert(error.error_description || error.message);
+    
+        toast.error('Login failed. Please check your email and password.');
+
+        console.error(error); 
+        
       }
     },
   },
 };
 </script>
+
+
 
 <style scoped>
 .image {
