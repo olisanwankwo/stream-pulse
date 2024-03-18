@@ -52,41 +52,70 @@
 
 <script>
 import { supabase } from './supabase';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
 export default {
-data() {
-  return {
-    passwordVisible: false,
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    passwordVisible: false,
-  };
-},
-methods: {
-  togglePasswordVisibility() {
-    this.passwordVisible = !this.passwordVisible;
-    const passwordInput = document.getElementById('password');
-    passwordInput.type = this.passwordVisible ? 'text' : 'password';
-  },
-  async handleSignup() {
-  try {
-    let params = {
-      email: this.email,
-      password: this.password,
+  data() {
+    return {
+      passwordVisible: false,
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      passwordVisible: false,
     };
+  },
+  methods: {
+    togglePasswordVisibility() {
+      this.passwordVisible = !this.passwordVisible;
+      const passwordInput = document.getElementById('password');
+      passwordInput.type = this.passwordVisible ? 'text' : 'password';
+    },
+    async handleSignup() {
+      try {
+        
+        if (!this.isStrongPassword(this.password)) {
+          throw new Error("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+        }
 
-    console.log("Signup Parameters:", params);
+        let params = {
+          email: this.email,
+          password: this.password,
+        };
 
-    const { error } = await supabase.auth.signUp(params);
-    if (error) throw error;
-    this.$router.push('/login');
-  } catch (error) {
-    alert(error.error_description || error.message);
-  }
-},
+        console.log("Signup Parameters:", params);
 
-}
+        const { error } = await supabase.auth.signUp(params);
+        if (error) {
+        
+          if (error.message.includes("already exists")) {
+            throw new Error("Email already exists. Please use a different email.");
+          } else {
+            throw new Error(error.message);
+          }
+        }
+        
+      
+        toast.success('Registration successful');
+
+        
+        setTimeout(() => {
+          this.$router.push('/login');
+        }, 5000);
+      } catch (error) {
+        
+        toast.error(error.message || "An error occurred during registration.");
+
+        console.error(error); 
+      }
+    },
+    isStrongPassword(password) {
+    
+      const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      return strongPasswordRegex.test(password);
+    },
+  },
 };
 </script>
 
