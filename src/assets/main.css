@@ -1,0 +1,81 @@
+@import './base.css';
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+  /* background-color: #fff; */
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: white;
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    overflow: hidden;
+    overflow-y: auto;
+    place-items: center;
+  }
+
+  .dark-mode {
+    background-color: #0d0c0f;
+    color: #fff;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+}
+
+
+@media screen and(max-width: 760) {
+  #app{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows:.2fr 1fr 1fr .6fr 1fr 1fr;
+    grid-template-areas: "navbar navbar navbar navbar" 
+    "boxContent boxContent boxContent boxContent"
+    "boxContent boxContent boxContent boxContent"
+    "backColor backColor backColor backColor"
+    "carousel carousel carousel carousel"
+    "sidebar sidebar sidebar sidebar"
+    ;
+  }
+
+
+  .navbar{
+    grid-area: navbar;
+    background-color: #ff2222;
+  }
+  .box-container{
+    grid-area: boxContainer;
+    background-color: #ff2222;
+  }
+  .back-color2{
+    grid-area: backColor;
+    background-color: #ff2222;
+  }
+  .carousel{
+    grid-area: carousel;
+    background-color: #ff2222;
+  }
+i  .movies-sidebar{
+    grid-area: sidebar;
+    background-color: #ff2222;
+  }
+}
