@@ -234,10 +234,10 @@
                 data:this.movieData,
               },
             );
-            toast.success('Added to wishlist!');
+            toast.success('Added to Favourite!');
           } catch (error) {
             console.error("Error adding to wishlist:", error.message);
-            toast.error('Failed to add to wishlist');
+            toast.error('Failed to add to Favourite');
           }
         },
     
@@ -679,7 +679,7 @@ color: #ff2222;
   }
   
   .btn{
-    margin-bottom: 49px;
+    margin-bottom: 104px;
     margin-left: -124px;
   }
   
@@ -768,7 +768,7 @@ color: #ff2222;
     position: absolute;
     overflow: hidden;
     bottom: 0;
-    margin-bottom: -188px;
+    margin-bottom: -252px;
     margin-left: -19px;
     border-radius: 20px;
     padding: 0 1%;
